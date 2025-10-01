@@ -1,0 +1,56 @@
+﻿@page "/"
+
+
+<div class="pdf-viewer-container">
+	<iframe id="pdfViewerIframe"
+			src="@GetPdfViewerUrl()"
+			width="100%"
+			height="800px">
+	</iframe>
+</div>
+
+@code {
+
+	private string pdfUrl { get; set; }
+	private IJSObjectReference? module;
+
+	protected override async Task OnInitializedAsync()
+	{
+		pdfUrl = $"/api/pdf/invoice-batch/";
+		StateHasChanged();
+	}
+
+	private string GetPdfViewerUrl()
+	{
+		var baseUrl = $"/pdfjs/web/viewer.html?file={Uri.EscapeDataString(pdfUrl)}";
+		return baseUrl;
+	}
+}
+
+<style>
+	.pdf-viewer-container {
+		width: 100%;
+		height: 800px;
+	}
+
+	/* Hide print and download buttons only on this page */
+	#pdfViewerIframe {
+		pointer-events: auto;
+	}
+
+	.download {
+		display: none !important;
+	}
+
+	.print {
+		display: none !important;
+	}
+
+	.downloadButton {
+		display: none !important;
+	}
+
+	.printButton {
+		display: none !important;
+	}
+</style>
